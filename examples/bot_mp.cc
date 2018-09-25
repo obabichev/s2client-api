@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    
+
     bot1.Control()->DumpProtoUsage();
     bot2.Control()->DumpProtoUsage();
 
