@@ -3,6 +3,7 @@
 #include <bot_examples.h>
 #include <sc2utils/sc2_manage_process.h>
 #include "obabichev/Bbot.h"
+#include "obabichev/StubBot.h"
 
 using namespace sc2;
 
@@ -14,16 +15,16 @@ int main(int argc, char *argv[]) {
     }
 
     coordinator.SetMultithreaded(true);
-    ProtossMultiplayerBot bot1;
-//    Bbot bot2;
-    Bbot bot2;
+    StubBot stubBot;
+    Bbot bot1, bot2;
 
     coordinator.SetParticipants(
         {
-            CreateParticipant(sc2::Race::Protoss, &bot1),
+            CreateParticipant(sc2::Race::Terran, &stubBot),
             CreateParticipant(sc2::Race::Protoss, &bot2)
         });
 
+    coordinator.SetRealtime(true);
     coordinator.LaunchStarcraft();
 
 
@@ -34,7 +35,7 @@ int main(int argc, char *argv[]) {
         }
         while (coordinator.Update() && !do_break) {
             if (sc2::PollKeyPress()) {
-                do_break = true;
+//                do_break = true;
             }
         }
     }

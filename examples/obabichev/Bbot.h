@@ -6,13 +6,24 @@
 #include "sc2api/sc2_agent.h"
 #include "sc2api/sc2_map_info.h"
 
+#include "builder/Builder.h"
+
 namespace sc2 {
 
 class Bbot : public Agent {
-public:
-    virtual void OnGameStart() final;
+private:
+    Builder builder;
 
-    virtual void OnStep() final;
+public:
+    Bbot();
+
+    void OnGameStart() final;
+
+    void OnStep() final;
+
+    void OnUnitIdle(const Unit *unit) override;
+
+    const ObservationInterface *observation();
 };
 
 }
