@@ -7,12 +7,15 @@
 
 #include <vector>
 #include "GoalComposite.h"
+#include "Builder.h"
 
 namespace sc2 {
 
 class FollowBuildOrderGoal : public GoalComposite {
+private:
+    Builder *builder;
 public:
-    FollowBuildOrderGoal();
+    explicit FollowBuildOrderGoal(Builder *builder);
 };
 
 }

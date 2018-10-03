@@ -10,6 +10,9 @@
 namespace sc2 {
 
 class Goal {
+protected:
+    bool _isCompleted = false;
+
 public:
     Goal();
 
@@ -20,6 +23,8 @@ public:
     bool hasFailed();
 
     int terminate();
+
+    void setCompleted(bool isCompleted);
 };
 
 }

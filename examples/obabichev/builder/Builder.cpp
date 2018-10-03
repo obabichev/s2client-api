@@ -4,25 +4,16 @@
 
 #include <iostream>
 #include <sc2api/sc2_api.h>
-//#include "sc2api/sc2_api.h"
-#include "sc2lib/sc2_lib.h"
 #include "Builder.h"
 #include "Utils.h"
+#include "FollowBuildOrderGoal.h"
 
 namespace sc2 {
 
 void Builder::update() {
-    std::cout << "Builder::update()" << std::endl;
     goal->process();
 
-    tryBuildPylon();
-
-//    auto coordinate = Utils::getCoordinates(observation(), UNIT_TYPEID::PROTOSS_NEXUS);
-//    std::cout << "coordinates.x " << coordinate.x << std::endl;
-//    std::cout << "coordinates.y " << coordinate.y << std::endl;
-
-//    std::cout << "observation()->GetFoodCap()" << observation()->GetFoodCap() << std::endl;
-//    std::cout << "observation()->GetFoodUsed()" << observation()->GetFoodUsed() << std::endl;
+//    tryBuildPylon();
 }
 
 bool Builder::tryBuildPylon() {
@@ -96,7 +87,9 @@ bool Builder::tryBuildStructure(AbilityID ability_type_for_structure, UnitTypeID
     return false;
 }
 
-Builder::Builder(Agent *agent) : agent(agent) {}
+Builder::Builder(Agent *agent) : agent(agent) {
+    goal = new FollowBuildOrderGoal(this);
+}
 
 const ObservationInterface *Builder::observation() {
     return agent->Observation();
@@ -108,6 +101,37 @@ QueryInterface *Builder::query() {
 
 ActionInterface *Builder::action() {
     return agent->Actions();
+}
+
+const Unit *Builder::getWorkerToBuild() {
+    Units workers = observation()->GetUnits(Unit::Alliance::Self, IsUnit(UNIT_TYPEID::PROTOSS_PROBE));
+
+    //if we have no workers Don't build
+    if (workers.empty()) {
+        return nullptr;
+    }
+
+    const Unit *unit = GetRandomEntry(workers);
+
+    return unit;
+}
+
+bool Builder::tryBuildStructure(const Unit *worker, AbilityID structureAbilityType) {
+    auto location = getRandomLocation();
+    if (query()->Placement(structureAbilityType, location)) {
+        action()->UnitCommand(worker, structureAbilityType, location);
+        return true;
+    }
+    return false;
+}
+
+Point2D Builder::getRandomLocation() {
+    auto coordinate = Utils::getCoordinates(observation(), UNIT_TYPEID::PROTOSS_NEXUS);
+
+    float rx = GetRandomScalar();
+    float ry = GetRandomScalar();
+    Point2D location = Point2D(coordinate.x + rx * 15, coordinate.y + ry * 15);
+    return location;
 }
 
 }

@@ -6,13 +6,15 @@
 #define S2CLIENT_API_BUILDER_H
 
 #include "Goal.h"
-#include "FollowBuildOrderGoal.h"
+//#include "FollowBuildOrderGoal.h"
+#include "sc2api/sc2_agent.h"
+#include "sc2api/sc2_common.h"
 
 namespace sc2 {
 
 class Builder {
 private:
-    Goal *goal = new FollowBuildOrderGoal();
+    Goal *goal;
 
     Agent *agent;
 
@@ -31,6 +33,12 @@ public:
     QueryInterface *query();
 
     ActionInterface *action();
+
+    const Unit *getWorkerToBuild();
+
+    bool tryBuildStructure(const Unit *worker, AbilityID structureAbilityType);
+
+    Point2D getRandomLocation();
 };
 
 }

@@ -1,7 +1,3 @@
-//
-// Created by Babichev Oleg on 25/09/2018.
-//
-
 #include "GoalComposite.h"
 
 namespace sc2 {

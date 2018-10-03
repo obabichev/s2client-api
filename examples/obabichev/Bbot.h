@@ -23,6 +23,8 @@ public:
 
     void OnUnitIdle(const Unit *unit) override;
 
+    void OnUnitCreated(const Unit *unit) override;
+
     const ObservationInterface *observation();
 };
 

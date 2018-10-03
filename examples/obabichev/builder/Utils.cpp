@@ -1,7 +1,3 @@
-//
-// Created by Babichev Oleg on 27/09/2018.
-//
-
 #include "Utils.h"
 
 #include "sc2api/sc2_api.h"
