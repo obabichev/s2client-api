@@ -8,6 +8,7 @@
 #include "Goal.h"
 //#include "FollowBuildOrderGoal.h"
 #include "sc2api/sc2_agent.h"
+#include "sc2api/sc2_interfaces.h"
 #include "sc2api/sc2_common.h"
 
 namespace sc2 {

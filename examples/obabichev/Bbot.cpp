@@ -17,11 +17,9 @@ void Bbot::OnStep() {
 }
 
 void Bbot::OnUnitIdle(const Unit *unit) {
-//    std::cout << "Unit idle: " << unit->unit_type.to_string() << std::endl;
-//    std::cout << "tag: " << unit->tag << std::endl;
     switch (unit->unit_type.ToType()) {
         case UNIT_TYPEID::PROTOSS_NEXUS: {
-            Actions()->UnitCommand(unit, ABILITY_ID::TRAIN_PROBE);
+//            Actions()->UnitCommand(unit, ABILITY_ID::TRAIN_PROBE);
             break;
         }
         default: {
@@ -40,7 +38,9 @@ const ObservationInterface *Bbot::observation() {
 }
 
 void Bbot::OnUnitCreated(const Unit *unit) {
+    UnitCreatedTelegram t = UnitCreatedTelegram(unit);
     std::cout << "unit created " << unit->unit_type.to_string() << " " << unit->tag << std::endl;
+    MessageDispatcher::instance()->dispatch(TelegramType::UNIT_CREATED, t);
 }
 
 }

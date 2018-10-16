@@ -7,6 +7,8 @@
 #include "sc2api/sc2_map_info.h"
 
 #include "builder/Builder.h"
+#include "MessageDispatcher.h"
+#include "UnitCreatedTelegram.h"
 
 namespace sc2 {
 

@@ -7,6 +7,9 @@
 
 #include "sc2api/sc2_api.h"
 #include "sc2lib/sc2_lib.h"
+#include "sc2api/sc2_interfaces.h"
+#include "sc2api/sc2_typeenums.h"
+#include "sc2api/sc2_types.h"
 
 namespace sc2 {
 

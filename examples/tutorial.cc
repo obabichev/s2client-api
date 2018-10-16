@@ -14,9 +14,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    coordinator.SetMultithreaded(true);
+    coordinator.SetMultithreaded(false);
+    coordinator.SetRealtime(true);
     StubBot stubBot;
-    Bbot bot1, bot2;
+    Bbot /*bot1,*/ bot2;
 
     coordinator.SetParticipants(
         {
@@ -24,9 +25,7 @@ int main(int argc, char *argv[]) {
             CreateParticipant(sc2::Race::Protoss, &bot2)
         });
 
-    coordinator.SetRealtime(true);
     coordinator.LaunchStarcraft();
-
 
     bool do_break = false;
     while (!do_break) {
@@ -40,7 +39,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    bot1.Control()->DumpProtoUsage();
+    stubBot.Control()->DumpProtoUsage();
     bot2.Control()->DumpProtoUsage();
 
     return 0;

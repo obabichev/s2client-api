@@ -23,4 +23,6 @@ void sc2::Goal::setCompleted(bool isCompleted) {
 }
 
 
-sc2::Goal::Goal() = default;
+sc2::Goal::Goal() {
+    std::cout << "CONSTRUCTO Goal" << std::endl;
+}

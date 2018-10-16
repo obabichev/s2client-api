@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <sc2api/sc2_api.h>
+
 #include "Builder.h"
 #include "Utils.h"
 #include "FollowBuildOrderGoal.h"
@@ -88,6 +89,7 @@ bool Builder::tryBuildStructure(AbilityID ability_type_for_structure, UnitTypeID
 }
 
 Builder::Builder(Agent *agent) : agent(agent) {
+    std::cout << "CONSTRUCTOR Builder" << std::endl;
     goal = new FollowBuildOrderGoal(this);
 }
 
