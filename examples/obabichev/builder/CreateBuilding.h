@@ -26,6 +26,8 @@ private:
     bool isBuildingStarted = false;
 
     bool isWorkerMovedToBuild = false;
+
+    UNIT_TYPEID abilityToType(ABILITY_ID ability_id);
 public:
     CreateBuilding(Builder *builder1, ABILITY_ID buildingType);
 

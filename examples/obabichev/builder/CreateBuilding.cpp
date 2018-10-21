@@ -67,12 +67,12 @@ GoalStatus CreateBuilding::process() {
 void CreateBuilding::notify(Telegram &telegram) {
     auto &unitCreatedTelegram = dynamic_cast<UnitCreatedTelegram &>(telegram);
 
-    if (unitCreatedTelegram.getUnit()->unit_type == UNIT_TYPEID::PROTOSS_PYLON) {
+    if (unitCreatedTelegram.getUnit()->unit_type == abilityToType(buildingType)) {
         building = unitCreatedTelegram.getUnit();
         isBuildingStarted = true;
         std::cout << "Pylon was started to build!!!!!" << std::endl;
     } else {
-        std::cout << "Not pylon" << std::endl;
+        std::cout << "Not right building" << std::endl;
     }
 }
 
@@ -89,6 +89,16 @@ int CreateBuilding::terminate() {
 void CreateBuilding::onActivate() {
     std::cout << "Activate building creating" << std::endl;
     MessageDispatcher::instance()->attach(TelegramType::UNIT_CREATED, this);
+}
+
+UNIT_TYPEID CreateBuilding::abilityToType(ABILITY_ID ability_id) {
+    if (ability_id == ABILITY_ID::BUILD_GATEWAY) {
+        return UNIT_TYPEID::PROTOSS_GATEWAY;
+    }
+    if (ability_id == ABILITY_ID::BUILD_CYBERNETICSCORE) {
+        return UNIT_TYPEID::PROTOSS_CYBERNETICSCORE;
+    }
+    return UNIT_TYPEID::PROTOSS_PYLON;
 }
 
 }

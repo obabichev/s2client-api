@@ -119,12 +119,23 @@ const Unit *Builder::getWorkerToBuild() {
 }
 
 bool Builder::tryBuildStructure(const Unit *worker, AbilityID structureAbilityType) {
-    auto location = getRandomLocation();
+//    auto location = getRandomLocation();
+    auto location = generateLocationForBuilding(structureAbilityType);
+
     if (query()->Placement(structureAbilityType, location)) {
         action()->UnitCommand(worker, structureAbilityType, location);
         return true;
     }
     return false;
+}
+
+
+Point2D Builder::generateLocationForBuilding(AbilityID structureAbilityType) {
+    if (structureAbilityType == ABILITY_ID::BUILD_PYLON) {
+        return getRandomLocation();
+    } else {
+        return generateLocationNearPylon();
+    }
 }
 
 Point2D Builder::getRandomLocation() {
@@ -135,5 +146,54 @@ Point2D Builder::getRandomLocation() {
     Point2D location = Point2D(coordinate.x + rx * 15, coordinate.y + ry * 15);
     return location;
 }
+
+Point2D Builder::generateLocationNearPylon() {
+    std::vector<PowerSource> power_sources = observation()->GetPowerSources();
+//    if (power_sources.empty()) {
+//        return false;
+//    }
+    const PowerSource &random_power_source = GetRandomEntry(power_sources);
+//    if (observation()->GetUnit(random_power_source.tag) != nullptr) {
+//        if (observation()->GetUnit(random_power_source.tag)->unit_type == UNIT_TYPEID::PROTOSS_WARPPRISM) {
+//            return false;
+//        }
+//    } else {
+//        return false;
+//    }
+
+    float radius = random_power_source.radius;
+    float rx = GetRandomScalar();
+    float ry = GetRandomScalar();
+    Point2D build_location = Point2D(random_power_source.position.x + rx * radius,
+                                     random_power_source.position.y + ry * radius);
+
+    return build_location;
+}
+
+
+//bool ProtossMultiplayerBot::TryBuildStructureNearPylon(AbilityID ability_type_for_structure, UnitTypeID) {
+//    const ObservationInterface *observation = Observation();
+//
+//    //Need to check to make sure its a pylon instead of a warp prism
+//    std::vector<PowerSource> power_sources = observation->GetPowerSources();
+//    if (power_sources.empty()) {
+//        return false;
+//    }
+//
+//    const PowerSource &random_power_source = GetRandomEntry(power_sources);
+//    if (observation->GetUnit(random_power_source.tag) != nullptr) {
+//        if (observation->GetUnit(random_power_source.tag)->unit_type == UNIT_TYPEID::PROTOSS_WARPPRISM) {
+//            return false;
+//        }
+//    } else {
+//        return false;
+//    }
+//    float radius = random_power_source.radius;
+//    float rx = GetRandomScalar();
+//    float ry = GetRandomScalar();
+//    Point2D build_location = Point2D(random_power_source.position.x + rx * radius,
+//                                     random_power_source.position.y + ry * radius);
+//    return TryBuildStructure(ability_type_for_structure, UNIT_TYPEID::PROTOSS_PROBE, build_location);
+//}
 
 }

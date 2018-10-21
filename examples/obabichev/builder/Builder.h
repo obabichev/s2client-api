@@ -24,6 +24,10 @@ private:
     bool tryBuildStructure(AbilityID ability_type_for_structure, UnitTypeID unit_type, Point2D location,
                            bool isExpansion = false);
 
+    Point2D generateLocationForBuilding(AbilityID structureAbilityType);
+
+    Point2D generateLocationNearPylon();
+
 public:
     explicit Builder(Agent *agent);
 
