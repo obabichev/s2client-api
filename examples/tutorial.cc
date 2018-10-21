@@ -14,8 +14,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    coordinator.SetMultithreaded(false);
-    coordinator.SetRealtime(true);
+    coordinator.SetMultithreaded(true);
+    coordinator.SetRealtime(false);
     StubBot stubBot;
     Bbot /*bot1,*/ bot2;
 

@@ -54,9 +54,17 @@ GoalStatus CreateBuilding::process() {
 //        std::cout << "isBuildingStarted " << isBuildingStarted << std::endl;
 //        std::cout << "isWorkerMoveToBuild(worker, buildingType) " << isWorkerMoveToBuild(worker, buildingType)
 //                  << std::endl;
-        if (builder->tryBuildStructure(worker, buildingType)) {
-            isWorkerMovedToBuild = true;
-            std::cout << "Worker moved to build structure" << std::endl;
+
+        if (buildingType == ABILITY_ID::BUILD_ASSIMILATOR) {
+            if (builder->tryBuildAssimilator(worker)) {
+                isWorkerMovedToBuild = true;
+                std::cout << "Worker moved to build structure" << std::endl;
+            }
+        } else {
+            if (builder->tryBuildStructure(worker, buildingType)) {
+                isWorkerMovedToBuild = true;
+                std::cout << "Worker moved to build structure" << std::endl;
+            }
         }
         return GoalStatus::ACTIVE;
     }
@@ -97,6 +105,9 @@ UNIT_TYPEID CreateBuilding::abilityToType(ABILITY_ID ability_id) {
     }
     if (ability_id == ABILITY_ID::BUILD_CYBERNETICSCORE) {
         return UNIT_TYPEID::PROTOSS_CYBERNETICSCORE;
+    }
+    if (ability_id == ABILITY_ID::BUILD_ASSIMILATOR) {
+        return UNIT_TYPEID::PROTOSS_ASSIMILATOR;
     }
     return UNIT_TYPEID::PROTOSS_PYLON;
 }

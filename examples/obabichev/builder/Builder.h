@@ -19,14 +19,11 @@ private:
 
     Agent *agent;
 
-    bool tryBuildPylon();
-
-    bool tryBuildStructure(AbilityID ability_type_for_structure, UnitTypeID unit_type, Point2D location,
-                           bool isExpansion = false);
-
     Point2D generateLocationForBuilding(AbilityID structureAbilityType);
 
     Point2D generateLocationNearPylon();
+
+    Tag generateLocationForAssimilator();
 
 public:
     explicit Builder(Agent *agent);
@@ -42,6 +39,10 @@ public:
     const Unit *getWorkerToBuild();
 
     bool tryBuildStructure(const Unit *worker, AbilityID structureAbilityType);
+
+    bool tryBuildStructure(const Unit *worker, AbilityID structureAbilityType, Tag tag);
+
+    bool tryBuildAssimilator(const Unit *worker);
 
     Point2D getRandomLocation();
 };
