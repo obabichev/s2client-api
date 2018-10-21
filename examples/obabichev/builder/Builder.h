@@ -15,6 +15,10 @@ namespace sc2 {
 
 class Builder {
 private:
+    std::vector<Point3D> expansions_;
+
+    Point3D startLocation_;
+
     Goal *goal;
 
     Agent *agent;
@@ -24,6 +28,8 @@ private:
     Point2D generateLocationNearPylon();
 
     Tag generateLocationForAssimilator();
+
+    Point2D generateLocationForNexus();
 
 public:
     explicit Builder(Agent *agent);
@@ -43,6 +49,8 @@ public:
     bool tryBuildStructure(const Unit *worker, AbilityID structureAbilityType, Tag tag);
 
     bool tryBuildAssimilator(const Unit *worker);
+
+//    bool tryExpand(const Unit *worker);
 
     Point2D getRandomLocation();
 };

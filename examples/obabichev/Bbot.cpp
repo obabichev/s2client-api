@@ -9,11 +9,14 @@ namespace sc2 {
 
 void Bbot::OnGameStart() {
     std::cout << "Start bot" << std::endl;
+    builder = new Builder(this);
 }
 
 void Bbot::OnStep() {
 //    std::cout << Observation()->GetGameLoop() << std::endl;
-    builder.update();
+    if (builder != nullptr) {
+        builder->update();
+    }
 }
 
 void Bbot::OnUnitIdle(const Unit *unit) {
@@ -29,7 +32,7 @@ void Bbot::OnUnitIdle(const Unit *unit) {
 
 }
 
-Bbot::Bbot() : builder(Builder(this)) {
+Bbot::Bbot() {
 
 }
 

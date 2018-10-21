@@ -109,6 +109,9 @@ UNIT_TYPEID CreateBuilding::abilityToType(ABILITY_ID ability_id) {
     if (ability_id == ABILITY_ID::BUILD_ASSIMILATOR) {
         return UNIT_TYPEID::PROTOSS_ASSIMILATOR;
     }
+    if (ability_id == ABILITY_ID::BUILD_NEXUS) {
+        return UNIT_TYPEID::PROTOSS_NEXUS;
+    }
     return UNIT_TYPEID::PROTOSS_PYLON;
 }
 

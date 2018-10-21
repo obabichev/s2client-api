@@ -58,6 +58,9 @@ void Builder::update() {
 
 Builder::Builder(Agent *agent) : agent(agent) {
     std::cout << "CONSTRUCTOR Builder" << std::endl;
+    expansions_ = search::CalculateExpansionLocations(observation(), query());
+    startLocation_ = observation()->GetStartLocation();
+
     goal = new FollowBuildOrderGoal(this);
 }
 
@@ -111,6 +114,8 @@ bool Builder::tryBuildStructure(const Unit *worker, AbilityID structureAbilityTy
 Point2D Builder::generateLocationForBuilding(AbilityID structureAbilityType) {
     if (structureAbilityType == ABILITY_ID::BUILD_PYLON) {
         return getRandomLocation();
+    } else if (structureAbilityType == ABILITY_ID::BUILD_NEXUS) {
+        return generateLocationForNexus();
     } else {
         return generateLocationNearPylon();
     }
@@ -165,6 +170,28 @@ bool Builder::tryBuildAssimilator(const Unit *worker) {
     Tag gayser = generateLocationForAssimilator();
 
     return tryBuildStructure(worker, ABILITY_ID::BUILD_ASSIMILATOR, gayser);
+}
+
+Point2D Builder::generateLocationForNexus() {
+    float minimum_distance = std::numeric_limits<float>::max();
+    Point3D closest_expansion;
+
+    std::cout << "startLocation_: " << startLocation_.x << " " << startLocation_.y << std::endl;
+    for (const auto &expansion : expansions_) {
+        std::cout << "expansion: " << expansion.x << " " << expansion.y << std::endl;
+        float current_distance = Distance2D(startLocation_, expansion);
+        if (current_distance < .01f) {
+            continue;
+        }
+        if (current_distance < minimum_distance) {
+            if (query()->Placement(ABILITY_ID::BUILD_NEXUS, expansion)) {
+                closest_expansion = expansion;
+                minimum_distance = current_distance;
+            }
+        }
+    }
+    std::cout << "Nexus position: " << closest_expansion.x << " " << closest_expansion.y << std::endl;
+    return {closest_expansion.x, closest_expansion.y};
 }
 
 }

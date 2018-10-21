@@ -14,7 +14,7 @@ namespace sc2 {
 
 class Bbot : public Agent {
 private:
-    Builder builder;
+    Builder* builder = nullptr;
 
 public:
     Bbot();

@@ -11,6 +11,7 @@ FollowBuildOrderGoal::FollowBuildOrderGoal(Builder *builder) : builder(builder) 
     subgoals.push_back(new CreateBuilding(builder, ABILITY_ID::BUILD_PYLON));
     subgoals.push_back(new CreateBuilding(builder, ABILITY_ID::BUILD_GATEWAY));
     subgoals.push_back(new CreateBuilding(builder, ABILITY_ID::BUILD_ASSIMILATOR));
+    subgoals.push_back(new CreateBuilding(builder, ABILITY_ID::BUILD_NEXUS));
     subgoals.push_back(new CreateBuilding(builder, ABILITY_ID::BUILD_CYBERNETICSCORE));
 }
 
