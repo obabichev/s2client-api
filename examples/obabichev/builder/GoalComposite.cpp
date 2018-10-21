@@ -10,7 +10,11 @@ GoalStatus GoalComposite::processSubgoals() {
     }
 
     if (!subgoals.empty()) {
-        GoalStatus status = subgoals.front()->process();
+        auto subgoal = subgoals.front();
+        if (!subgoal->isActivated()) {
+            subgoal->activate();
+        }
+        GoalStatus status = subgoal->process();
         if (status == GoalStatus::COMPLETED && subgoals.size() > 1) {
             return GoalStatus::ACTIVE;
         }

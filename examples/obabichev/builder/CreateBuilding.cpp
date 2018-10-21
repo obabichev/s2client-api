@@ -10,7 +10,6 @@ namespace sc2 {
 CreateBuilding::CreateBuilding(Builder *builder, ABILITY_ID buildingType)
     : builder(builder), buildingType(buildingType), Goal() {
     std::cout << "CONSTURCTOR CreateBuilding" << std::endl;
-    MessageDispatcher::instance()->attach(TelegramType::UNIT_CREATED, this);
 }
 
 bool isWorkerMoveToBuild(const Unit *worker, ABILITY_ID buildingType) {
@@ -42,7 +41,12 @@ GoalStatus CreateBuilding::process() {
     }
 
     if (building != nullptr) {
-        std::cout << "Build progress: " << building->build_progress << std::endl;
+//        std::cout << "Build progress: " << building->build_progress << std::endl;
+        if (building->build_progress == 1) {
+            setCompleted();
+            std::cout << "Building completed" << std::endl;
+            return GoalStatus::COMPLETED;
+        }
         return GoalStatus::ACTIVE;
     }
 
@@ -74,6 +78,17 @@ void CreateBuilding::notify(Telegram &telegram) {
 
 CreateBuilding::CreateBuilding(const CreateBuilding &createBuilding) : Goal(createBuilding) {
     std::cout << "COPY CONSTRUCTOR" << std::endl;
+}
+
+int CreateBuilding::terminate() {
+    std::cout << "Terminate Building creating" << std::endl;
+    MessageDispatcher::instance()->detach(TelegramType::UNIT_CREATED);
+    return 0;
+}
+
+void CreateBuilding::onActivate() {
+    std::cout << "Activate building creating" << std::endl;
+    MessageDispatcher::instance()->attach(TelegramType::UNIT_CREATED, this);
 }
 
 }

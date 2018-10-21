@@ -11,7 +11,11 @@ namespace sc2 {
 
 class Goal {
 protected:
+    bool _isActivated = false;
+
     bool _isCompleted = false;
+
+    bool _isFailed = false;
 
 public:
     Goal();
@@ -22,9 +26,17 @@ public:
 
     bool hasFailed();
 
-    int terminate();
+    virtual int terminate();
 
-    void setCompleted(bool isCompleted);
+    void setCompleted();
+
+    void setFailed();
+
+    virtual void activate();
+
+    virtual void onActivate();
+
+    bool isActivated();
 };
 
 }

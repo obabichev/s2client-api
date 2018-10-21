@@ -34,6 +34,10 @@ public:
     GoalStatus process() override;
 
     void notify(Telegram &telegram) override;
+
+    int terminate() override;
+
+    void onActivate() override;
 };
 
 }

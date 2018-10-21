@@ -10,19 +10,38 @@ bool sc2::Goal::isCompleted() {
 }
 
 bool sc2::Goal::hasFailed() {
-    return false;
+    return _isFailed;
 }
 
 int sc2::Goal::terminate() {
     return 0;
 }
 
-void sc2::Goal::setCompleted(bool isCompleted) {
-    std::cout << "Goal::setCompleted.isCompleted " << isCompleted << std::endl;
-    _isCompleted = isCompleted;
+void sc2::Goal::setCompleted() {
+    std::cout << "Goal::setCompleted.isCompleted " << std::endl;
+    _isCompleted = true;
 }
 
 
 sc2::Goal::Goal() {
     std::cout << "CONSTRUCTO Goal" << std::endl;
+}
+
+void sc2::Goal::setFailed() {
+    _isFailed = true;
+}
+
+void sc2::Goal::activate() {
+    if (!_isActivated) {
+        _isActivated = true;
+        onActivate();
+    }
+}
+
+void sc2::Goal::onActivate() {
+
+}
+
+bool sc2::Goal::isActivated() {
+    return _isActivated;
 }
